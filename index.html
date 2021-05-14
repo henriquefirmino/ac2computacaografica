@@ -172,9 +172,9 @@
             bola3.position.z = -18;
 
             var bola4 = BABYLON.MeshBuilder.CreateSphere("bola4", {diameter: 1.75}, scene);
-            bola4.position.x = -10;
+            bola4.position.x = -11;
             bola4.position.y = 0.9;
-            bola4.position.z = 9;
+            bola4.position.z = 10;
 
             var bola5 = BABYLON.MeshBuilder.CreateSphere("bola5", {diameter: 1.5}, scene);
             bola5.position.x = 8;
@@ -403,7 +403,7 @@
 
                     else if(hero.intersectsMesh(bola4, false)) {
                         bola4.dispose();
-                        particula2.emitter = new BABYLON.Vector3(-10, 0, 9);
+                        particula2.emitter = new BABYLON.Vector3(-11, 0, 10);
                         particula2.start();
                         som2.play();
                         particula2.targetStopDuration = 1;
