@@ -59,8 +59,8 @@
             var camera1 = new BABYLON.ArcRotateCamera("camera1", Math.PI / 2, Math.PI / 4, 10, new BABYLON.Vector3(0, -5, 0), scene);
             scene.activeCamera = camera1;
             scene.activeCamera.attachControl(canvas, true);
-            //camera1.lowerRadiusLimit = 10;
-            //camera1.upperRadiusLimit = 20;
+            camera1.lowerRadiusLimit = 10;
+            camera1.upperRadiusLimit = 20;
             camera1.wheelDeltaPercentage = 0.01;
         
             // Lights
@@ -84,41 +84,29 @@
             skyboxMaterial.specularColor = BABYLON.Color3.Black();
             skybox.material = skyboxMaterial;
 
-            //Cilindro
-            // var cylinder = BABYLON.MeshBuilder.CreateCylinder("cylinder", {diameter: 20, height: 2}, scene, false);
-            // cylinder.checkCollisions = true;
-            // cylinder.position.y = 0;
-            //cylinder.isVisible = false;
-
             var torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter:50, thickness: 5, tessellation: 100}, scene);
             torus.checkCollisions = true;
             torus.isVisible = false;
         
             // GUI
-            // var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-            // var instructions = new BABYLON.GUI.TextBlock();
-            // instructions.text = "Move w/ WASD keys, B for Samba, look with the mouse";
-            // instructions.color = "white";
-            // instructions.fontSize = 16;
-            // instructions.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
-            // instructions.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
-            // advancedTexture.addControl(instructions);
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+            var instructions = new BABYLON.GUI.TextBlock();
+            instructions.text = "Mova a personagem com WASD e olhe com o mouse\nColete as Esferas da começando da maior";
+            instructions.color = "white";
+            instructions.fontSize = 30;
+            instructions.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT
+            instructions.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM
+            advancedTexture.addControl(instructions);
         
             // Ground
             var ground1 = BABYLON.MeshBuilder.CreateDisc("ground", {radius: 100}, scene);
             ground1.rotation.x = Math.PI / 2;
             ground1.isVisible = false;
-            // var groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
-            // groundMaterial.diffuseTexture = new BABYLON.Texture("textures/cimento2.png", scene);
-            // groundMaterial.diffuseTexture.uScale = 2;
-            // groundMaterial.diffuseTexture.vScale = 2;
-            // groundMaterial.specularColor = new BABYLON.Color3(.1, .1, .1);
-            // ground.material = groundMaterial;
-
+            
             //Ground HeightMap
             var ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "textures/heightMap5.png", 50, 50, 300, 0, 1, scene);
             var groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
-            groundMaterial.diffuseTexture = new BABYLON.Texture("textures/cimento2.png", scene);
+            groundMaterial.diffuseTexture = new BABYLON.Texture("textures/grama.jpg", scene);
             groundMaterial.diffuseTexture.uScale = 2;
             groundMaterial.diffuseTexture.vScale = 2;
             groundMaterial.specularColor = new BABYLON.Color3(.1, .1, .1);
@@ -142,15 +130,81 @@
             particula.maxEmitPower = 2;
             particula.updateSpeed = 0.04;
 
+            //particulas bolas
+            var particula2 = new BABYLON.ParticleSystem("particula2", 5000, scene);
+                
+            particula2.particleTexture = new BABYLON.Texture("textures/po.png", scene);
+    
+            particula2.minSize = 0.1;
+            particula2.maxSize = 0.3;
+    
+            particula2.emitRate = 800;
+    
+            particula2.blendMode = BABYLON.ParticleSystem.BLENDMODE_STANDARD;
+    
+            particula2.minAngularSpeed = 0;         
+            particula2.maxAngularSpeed = Math.PI/2;        
+            particula2.minEmitPower = 0.5;
+            particula2.maxEmitPower = 2;
+            particula2.updateSpeed = 0.04;
+
             //som explosão
             var som = new BABYLON.Sound("explosion", "som/explosao.mp3", scene);
 
-            // //meshes do cenario
-            // var pano = BABYLON.SceneLoader.ImportMesh("", "https://models.babylonjs.com/", "clothFolds.glb", scene, function () {          
-                
-            //     pano.scaling.scaleInPlace(0.02);
-                
-            // });
+            //som 2
+            var som2 = new BABYLON.Sound("som2", "som/som4.wav", scene);
+
+            //Criação das 10 bolas
+            var bola1 = BABYLON.MeshBuilder.CreateSphere("bola1", {diameter: 2.5}, scene);
+            //var bola1 = BABYLON.MeshBuilder.CreateBox("bola1", {size: 2.5}, scene);
+            bola1.position.x = 0;
+            bola1.position.y = 1.25;
+            bola1.position.z = 17;
+
+            var bola2 = BABYLON.MeshBuilder.CreateSphere("bola2", {diameter: 2.25}, scene);
+            bola2.position.x = -5;
+            bola2.position.y = 1.1;
+            bola2.position.z = -17;
+
+            var bola3 = BABYLON.MeshBuilder.CreateSphere("bola3", {diameter: 2}, scene);
+            bola3.position.x = 10;
+            bola3.position.y = 0.99;
+            bola3.position.z = -18;
+
+            var bola4 = BABYLON.MeshBuilder.CreateSphere("bola4", {diameter: 1.75}, scene);
+            bola4.position.x = -10;
+            bola4.position.y = 0.9;
+            bola4.position.z = 9;
+
+            var bola5 = BABYLON.MeshBuilder.CreateSphere("bola5", {diameter: 1.5}, scene);
+            bola5.position.x = 8;
+            bola5.position.y = 0.75;
+            bola5.position.z = 5;
+
+            var bola6 = BABYLON.MeshBuilder.CreateSphere("bola6", {diameter: 1.25}, scene);
+            bola6.position.x = -12;
+            bola6.position.y = 0.62;
+            bola6.position.z = -2;
+
+            var bola7 = BABYLON.MeshBuilder.CreateSphere("bola7", {diameter: 1}, scene);
+            bola7.position.x = -16;
+            bola7.position.y = 0.5;
+            bola7.position.z = 1;
+
+            var bola8 = BABYLON.MeshBuilder.CreateSphere("bola8", {diameter: 0.75}, scene);
+            bola8.position.x = 0;
+            bola8.position.y = 0.35;
+            bola8.position.z = -4;
+
+            var bola9 = BABYLON.MeshBuilder.CreateSphere("bola9", {diameter: 0.5}, scene);
+            bola9.position.x = -14;
+            bola9.position.y = 0.23;
+            bola9.position.z = -15;
+
+            var bola10 = BABYLON.MeshBuilder.CreateSphere("bola10", {diameter: 0.35}, scene);
+            bola10.position.x = 17;
+            bola10.position.y = 0.15;
+            bola10.position.z = -5;
 
             //Criação dos barris
             var barril1 = BABYLON.SceneLoader.ImportMesh("", "https://models.babylonjs.com/", "ExplodingBarrel.glb", scene, function (newMeshes) {          
@@ -162,9 +216,9 @@
             });
             var cilindro1 = BABYLON.MeshBuilder.CreateCylinder("cylinder", {diameter: 0.9, height: 2.5}, scene, false);
             cilindro1.position.x = -5;
-            cilindro1.position.y = 0;
             cilindro1.position.z = 9;
             cilindro1.checkCollisions;
+            cilindro1.isVisible = false;
 
            var barril2 = BABYLON.SceneLoader.ImportMesh("", "https://models.babylonjs.com/", "ExplodingBarrel.glb", scene, function (newMeshes) {          
                 //barril 2
@@ -177,6 +231,7 @@
            cilindro2.position.x = 7;
            cilindro2.position.z = 2;
            cilindro2.checkCollisions;
+           cilindro2.isVisible = false;
 
            var barril3 = BABYLON.SceneLoader.ImportMesh("", "https://models.babylonjs.com/", "ExplodingBarrel.glb", scene, function (newMeshes) {          
                 //barril 3
@@ -189,6 +244,7 @@
             cilindro3.position.x = 0;
             cilindro3.position.z = -10;
             cilindro3.checkCollisions;
+            cilindro3.isVisible = false;
 
            var barril4 = BABYLON.SceneLoader.ImportMesh("", "https://models.babylonjs.com/", "ExplodingBarrel.glb", scene, function (newMeshes) {          
                 //barril 4
@@ -202,6 +258,7 @@
             cilindro4.position.x = -10;
             cilindro4.position.z = -1;
             cilindro4.checkCollisions;
+            cilindro4.isVisible = false;
         
             // Keyboard events
             var inputMap = {};
@@ -290,10 +347,6 @@
                         particula.start();
                         som.play();
                         particula.targetStopDuration = 3;
-                        
-                        //scene.dispose();
-
-                        //var box = BABYLON.MeshBuilder.CreateBox("GameOver", {height: 10, width: 50}, scene);
                     }
 
                     else if(hero.intersectsMesh(cilindro2, false)) {
@@ -321,6 +374,87 @@
                         particula.start();
                         som.play();
                         particula.targetStopDuration = 3;
+                    }
+
+                    //Interset bolas
+                    if(hero.intersectsMesh(bola1, false)) {
+                        bola1.dispose();
+                        particula2.emitter = new BABYLON.Vector3(0, 0, 17);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola2, false)) {
+                        bola2.dispose();
+                        particula2.emitter = new BABYLON.Vector3(-5, 0, -17);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola3, false)) {
+                        bola3.dispose();
+                        particula2.emitter = new BABYLON.Vector3(10, 0, -18);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola4, false)) {
+                        bola4.dispose();
+                        particula2.emitter = new BABYLON.Vector3(-10, 0, 9);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola5, false)) {
+                        bola5.dispose();
+                        particula2.emitter = new BABYLON.Vector3(8, 0, 5);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola6, false)) {
+                        bola6.dispose();
+                        particula2.emitter = new BABYLON.Vector3(-12, 0, -2);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola7, false)) {
+                        bola7.dispose();
+                        particula2.emitter = new BABYLON.Vector3(-16, 0, 1);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola8, false)) {
+                        bola8.dispose();
+                        particula2.emitter = new BABYLON.Vector3(0, 0, -4);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola9, false)) {
+                        bola9.dispose();
+                        particula2.emitter = new BABYLON.Vector3(-14, 0, -15);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
+                    }
+
+                    else if(hero.intersectsMesh(bola10, false)) {
+                        bola10.dispose();
+                        particula2.emitter = new BABYLON.Vector3(17, 0, -5);
+                        particula2.start();
+                        som2.play();
+                        particula2.targetStopDuration = 1;
                     }
                 });
             });
